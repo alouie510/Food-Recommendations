@@ -1,0 +1,84 @@
+{% extends 'template.html' %}
+
+{% block body %}
+
+<div class="jumbotron text-center">
+  <h1>Welcome to Food Analysis</h1>
+  <p class="lead">Input your nutritional requirements and Food Analysis will recommend up to 30 new dishes for you to try. Dishes are sorted by projected rating and will always avoid any of your allergies and abide by any nutritional restrictions. If dataset "does not find anything", try again - the classification model might have messed up. Bon Apetit!</p>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div id="left" style="float:left;width:50%">
+    <form method="POST" action="/">
+        Calories: <input type="text" name="calories">
+
+        <br>
+        <br>
+
+        Prefer More or Less Calories: <select name="overUnder">
+          <option name="under" value="Lose">I would prefer less calories</option>
+          <option name="over" value="Gain">I would prefer more calories</option>
+        </select>
+
+        <br>
+        <br>
+
+        Dietary Restrictions: <select name="restrictions">
+          <option name="none" value="none">I have no restrictions</option>
+          <option name="vegetarian" value="vegetarian">I am vegetarian</option>
+          <option name="vegan" value="vegan">I am vegan</option>
+          <option name="pescatarian" value="pescatarian">I am pescatarian</option>
+          <option name="kosher" value="kosher">I eat kosher</option>
+          <option name="diabetic" value="diabetic">I am diabetic</option>
+        </select>
+
+        <br>
+        <br>
+
+        Food Allergies:
+        <table>
+          <tr>
+             <td>
+                <input type="checkbox" name="dairy" value="dairy"> Dairy/Milk &nbsp;
+                <input type="checkbox" name="eggs" value="egg"> Eggs &nbsp;
+                <input type="checkbox" name="tree" value="tree"> Tree Nuts &nbsp;
+                <input type="checkbox" name="peanuts" value="peanuts"> Peanuts &nbsp;
+             </td>
+          </tr>
+
+          <tr>
+             <td>
+               <input type="checkbox" name="shell" value="shell"> Shellfish &nbsp;
+               <input type="checkbox" name="soy" value="soy"> Soy &nbsp;
+               <input type="checkbox" name="fish" value="fish"> Fish &nbsp;
+               <input type="checkbox" name="gluten" value="gluten"> Gluten &nbsp;
+             </td>
+          </tr>
+       </table>
+
+       <br>
+       <br>
+
+       <input type="submit" value="Process Request">
+    </form>
+    </div>
+
+
+    <div id="right" style="float:right;width:50%">
+      <h4>Food Recommendations:</h4>
+      <br>
+        {% if food |length == 0 %}
+          <p>No matching food in the dataset</p>
+        {% else %}
+          <ol>
+            {% for entry in food %}
+              <li>{{entry}}</li>
+            {% endfor %}
+          </ol>
+        {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
